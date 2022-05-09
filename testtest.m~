@@ -1,0 +1,50 @@
+close all;
+clear all;
+load('matlabvertices.mat')
+load('matlab1122.mat')
+load('matlab11221.mat')
+load('matlab12345.mat')
+load('matlabcwa.mat');
+load(
+
+% ContainedPointIndice = vCellwise_Attrbutes.voxContainedPointIndice;
+% load('matlab112211.mat')
+
+% pntdata = PCData.lidarDataArray;
+% pntdata(:,1) = pntdata(:,1) * VOXEL_XYZ_DIVS.xStep;
+% pntdata(:,2) = pntdata(:,2) * VOXEL_XYZ_DIVS.yStep;
+close all;
+vert= FV.vertices;
+ff= find(vert(:,1)~=1);
+subplot(1,2,1);
+plot3(vert(ff,1),vert(ff,2),vert(ff,3),'.')
+axis equal;
+axis([160 200 220 252 0 1000]);
+
+subplot(1,2,2);
+ff= find(and(vert(:,3)>510,vert(:,3)<570));
+% plot(vert(ff,1),vert(ff,2),'.')
+axis equal;
+axis([10 500 20 552 0 1000]);
+
+[xc,yc,R,a] = circFit(vert(ff,1),vert(ff,2));
+diam = 2*(R*0.01);
+c = [xc,yc];
+hold on;
+% viscircles(c,R);
+
+heightstep = 550; heightstepup =570;
+%     prev_stem_center = [];
+% for i = heightstep:heightstep:size(HeightSlice,3)
+tmpImg = zeros(size(HeightSlice,1),size(HeightSlice,2));
+for j = heightstep:1:heightstepup
+    tmpImg = tmpImg + HeightSlice(:,:,j);
+end
+% end
+subplot(1,2,2);
+hold on;
+imagesc(tmpImg)
+hold on;
+plot3(vert(ff,2),vert(ff,1),vert(ff,3),'.b')
+
+d=0;
